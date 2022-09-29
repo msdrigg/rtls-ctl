@@ -1,0 +1,19 @@
+[package]
+edition = "2021"
+name = "rtls-ctl"
+version = "0.1.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+anyhow = "1.0.65"
+clap = {version = "4.0.4", features = ["env", "derive"]}
+env_logger = "0.9.1"
+futures = {version = "0.3.24", features = ["compat"]}
+hex = "0.4.3"
+local-ip-address = "0.4.8"
+log = "0.4.17"
+reqwest = {version = "0.11.12", features = ["json"]}
+serde = {version = "1.0.145", features = ["derive"]}
+serde_json = "1.0.85"
+tokio = {version = "1.21.2", features = ["full"]}
