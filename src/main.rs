@@ -24,7 +24,7 @@ impl Iterator for RangeWrapperIter {
     type Item = Ipv4Addr;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.range.next().map(|n| Ipv4Addr::from(n))
+        self.range.next().map(Ipv4Addr::from)
     }
 }
 
@@ -104,7 +104,7 @@ async fn main() -> anyhow::Result<()> {
     info!("Scanning range {}..{}...", start, end);
 
     let results: Vec<GatewayDetection> = futures::stream::iter(RangeWrapper { start, end })
-        .map(|ip| filter_addr(ip))
+        .map(filter_addr)
         .buffer_unordered(args.concurrency)
         .filter_map(|v| async move {
             if let Err(err) = &v {
@@ -167,7 +167,7 @@ async fn filter_addr_g1(ip: Ipv4Addr) -> anyhow::Result<GatewayDetection> {
             ip,
             gateway: GatewayType::G1,
             mac: Mac::from_str(
-                &response["body"]["gateway"]["status"]["mac"]
+                response["body"]["gateway"]["status"]["mac"]
                     .as_str()
                     .ok_or_else(|| {
                         anyhow::anyhow!("Error parsing mac address from response {:?}", response)
